@@ -1,22 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Home</title>
+    <title>My WebSystem</title>
+    <!-- Bootstrap (optional, but kept for styling) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-    <!-- Bootstrap Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">My WebSystem</a>
+    <!-- Simple Header -->
+    <nav class="bg-light border-bottom mb-3">
+        <div class="container py-2 d-flex justify-content-between">
+            <a href="<?= base_url('/') ?>" class="fw-bold text-dark text-decoration-none">MyCI</a>
+            <div>
+                <a class="mx-2 text-dark text-decoration-none" href="<?= base_url('/') ?>">Home</a>
+                <a class="mx-2 text-dark text-decoration-none" href="<?= base_url('/about') ?>">About</a>
+                <a class="mx-2 text-dark text-decoration-none" href="<?= base_url('/contact') ?>">Contact</a>
+            </div>
         </div>
     </nav>
 
-    <div class="container mt-5">
-        <h1>Welcome to the Homepage!123</h1>
-        <p>This is a basic CodeIgniter 4 view using Bootstrap 5.</p>
+    <div class="container">
+        <?= $this->renderSection('content') ?>
     </div>
 </body>
 </html>
