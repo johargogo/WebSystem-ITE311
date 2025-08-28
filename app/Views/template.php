@@ -1,25 +1,104 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My WebSystem</title>
-    <!-- Bootstrap (optional, but kept for styling) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title><?= $this->renderSection('title') ?> - MyCI</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    /* Body background gradient */
+    body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      min-height: 100vh;
+      color: #f1f1f1;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Navbar */
+    .navbar {
+      background-color: rgba(20, 20, 20, 0.85);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .navbar-brand {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    .navbar .nav-link {
+      color: #e0e0e0;
+      font-size: 1.1rem;
+      margin: 0 8px;
+      transition: all 0.3s ease;
+    }
+
+    .navbar .nav-link:hover {
+      color: #0d6efd;
+      text-decoration: underline;
+    }
+
+    /* Page container */
+    .container {
+      margin-top: 60px;
+      background: rgba(30, 30, 30, 0.9);
+      padding: 30px 25px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
+
+    /* Optional: footer style */
+    footer {
+      text-align: center;
+      padding: 15px 0;
+      color: #cfcfcf;
+      font-size: 0.9rem;
+      margin-top: 50px;
+    }
+
+    /* Make buttons stand out */
+    .btn-primary {
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      border: none;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+    }
+
+  </style>
 </head>
 <body>
-    <!-- Simple Header -->
-    <nav class="bg-light border-bottom mb-3">
-        <div class="container py-2 d-flex justify-content-between">
-            <a href="<?= base_url('/') ?>" class="fw-bold text-dark text-decoration-none">MyCI</a>
-            <div>
-                <a class="mx-2 text-dark text-decoration-none" href="<?= base_url('/') ?>">Home</a>
-                <a class="mx-2 text-dark text-decoration-none" href="<?= base_url('/about') ?>">About</a>
-                <a class="mx-2 text-dark text-decoration-none" href="<?= base_url('/contact') ?>">Contact</a>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container">
-        <?= $this->renderSection('content') ?>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="<?= base_url('/') ?>">MyCI</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="<?= base_url('/') ?>">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="<?= base_url('/about') ?>">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="<?= base_url('/contact') ?>">Contact</a></li>
+        </ul>
+      </div>
     </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container">
+    <?= $this->renderSection('content') ?>
+  </div>
+
+  <!-- Optional footer -->
+  <footer>
+    &copy; <?= date('Y') ?> MyCI. All rights reserved.
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
