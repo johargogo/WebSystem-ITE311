@@ -19,7 +19,7 @@
 
         <div class="card shadow-sm border-0 bg-dark text-light">
             <div class="card-body p-4">
-                <form action="<?= base_url('login') ?>" method="post">
+                <form action="<?= site_url('login') ?>" method="post">
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
                         <input type="email" class="form-control bg-secondary text-light border-0" id="email" name="email" required value="<?= esc(old('email')) ?>">
@@ -34,7 +34,7 @@
         </div>
 
         <p class="text-center mt-3 text-light small">
-            Don't have an account? <a href="<?= base_url('register') ?>" class="text-light">Register</a>
+            Don't have an account? <a href="<?= site_url('register') ?>" class="text-light">Register</a>
         </p>
     </div>
 </div>

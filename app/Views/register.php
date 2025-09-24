@@ -13,7 +13,7 @@
 
         <div class="card shadow-sm border-0 bg-dark text-light">
             <div class="card-body p-4">
-                <form action="<?= base_url('register') ?>" method="post">
+                <form action="<?= site_url('register') ?>" method="post">
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
                         <input type="text" class="form-control bg-secondary text-light border-0" id="name" name="name" required value="<?= esc(old('name')) ?>">
@@ -35,7 +35,7 @@
             </div>
         </div>
         <p class="text-center mt-3 text-light small">
-            <a href="<?= base_url('login') ?>" class="text-light"> Login</a>
+            <a href="<?= site_url('login') ?>" class="text-light"> Login</a>
         </p>
     </div>
 </div>
