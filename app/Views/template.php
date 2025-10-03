@@ -49,6 +49,16 @@
       box-shadow: 0 8px 20px rgba(0,0,0,0.5);
     }
 
+    /* Dashboard should be full-width but keep the same look */
+    .page-dashboard {
+      margin-top: 60px;
+      background: rgba(30, 30, 30, 0.9);
+      padding: 30px 25px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      min-height: calc(100vh - 120px); /* fill screen minus top margin and footer space */
+    }
+
     /* Optional: footer style */
     footer {
       text-align: center;
@@ -71,6 +81,8 @@
   </style>
 </head>
 <body>
+  <?php $uri = service('uri'); $isDashboard = ($uri->getSegment(1) === 'dashboard'); ?>
+  <?php if (! $isDashboard): ?>
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
@@ -83,14 +95,28 @@
           <li class="nav-item"><a class="nav-link" href="<?= base_url('/') ?>">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="<?= base_url('/about') ?>">About</a></li>
           <li class="nav-item"><a class="nav-link" href="<?= base_url('/contact') ?>">Contact</a></li>
-          <li class="nav-item"><a class="nav-link" href="<?= site_url('login') ?>">Login</a></li>
+          <?php $role = session('userRole'); ?>
+          <?php if (session('isLoggedIn')): ?>
+            <li class="nav-item"><a class="nav-link" href="<?= base_url('/dashboard') ?>">Dashboard</a></li>
+            <?php if ($role === 'admin'): ?>
+              <li class="nav-item"><a class="nav-link disabled" href="#">Admin Tools</a></li>
+            <?php elseif ($role === 'teacher'): ?>
+              <li class="nav-item"><a class="nav-link disabled" href="#">My Courses</a></li>
+            <?php else: ?>
+              <li class="nav-item"><a class="nav-link disabled" href="#">Enrollments</a></li>
+            <?php endif; ?>
+            <li class="nav-item"><a class="nav-link" href="<?= site_url('logout') ?>">Logout</a></li>
+          <?php else: ?>
+            <li class="nav-item"><a class="nav-link" href="<?= site_url('login') ?>">Login</a></li>
+          <?php endif; ?>
         </ul>
       </div>
     </div>
   </nav>
+  <?php endif; ?>
 
   <!-- Page Content -->
-  <div class="container">
+  <div class="<?= $isDashboard ? 'container-fluid page-dashboard' : 'container' ?>">
     <?= $this->renderSection('content') ?>
   </div>
 

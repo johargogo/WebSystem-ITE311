@@ -41,10 +41,11 @@ class Auth extends BaseController
 
             $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
+            // Default new users to 'student' to match migration ENUM
             $userId = $userModel->insert([
                 'name' => $name,
                 'email' => $email,
-                'role' => 'user',
+                'role' => 'student',
                 'password' => $passwordHash,
             ], true);
 
@@ -58,7 +59,7 @@ class Auth extends BaseController
         }
 
         // Display form (GET)
-        return view('signin/register');
+        return view('register');
     }
 
     // Login 
@@ -80,7 +81,10 @@ class Auth extends BaseController
             if ($user && password_verify($password, $user['password'])) {
                 $session->set([
                     'isLoggedIn' => true,
-                    'userEmail' => $email,
+                    'userId' => $user['id'] ?? null,
+                    'userName' => $user['name'] ?? null,
+                    'userEmail' => $user['email'] ?? $email,
+                    'userRole' => $user['role'] ?? 'student',
                 ]);
                 return redirect()->to(base_url('dashboard'));
             }
@@ -106,6 +110,28 @@ class Auth extends BaseController
             return redirect()->to(base_url('login'));
         }
 
-        return view('dashboard');
+        $role = (string) $session->get('userRole');
+
+        // Fetch role-specific data (simple examples; replace with real queries/models as needed)
+        $data = [
+            'role' => $role,
+            'userName' => (string) $session->get('userName'),
+            'userEmail' => (string) $session->get('userEmail'),
+            'stats' => [],
+        ];
+
+        if ($role === 'admin') {
+            $userModel = new \App\Models\UserModel();
+            $data['stats']['totalUsers'] = $userModel->countAllResults();
+        } elseif ($role === 'teacher') {
+            // Placeholder counts; integrate with real models later
+            $data['stats']['myCourses'] = 0;
+            $data['stats']['pendingSubmissions'] = 0;
+        } else { // student
+            $data['stats']['enrolledCourses'] = 0;
+            $data['stats']['completedLessons'] = 0;
+        }
+
+        return view('auth/dashboard', $data);
     }
 }
