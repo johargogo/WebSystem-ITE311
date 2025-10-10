@@ -128,7 +128,14 @@ class Auth extends BaseController
             $data['stats']['myCourses'] = 0;
             $data['stats']['pendingSubmissions'] = 0;
         } else { // student
-            $data['stats']['enrolledCourses'] = 0;
+            // Get enrollment data for students
+            $enrollmentModel = new \App\Models\EnrollmentModel();
+            $enrolledCourses = $enrollmentModel->getUserEnrollments($session->get('userId'));
+            $availableCourses = $enrollmentModel->getAvailableCourses($session->get('userId'));
+
+            $data['enrolledCourses'] = $enrolledCourses;
+            $data['availableCourses'] = $availableCourses;
+            $data['stats']['enrolledCourses'] = count($enrolledCourses);
             $data['stats']['completedLessons'] = 0;
         }
 

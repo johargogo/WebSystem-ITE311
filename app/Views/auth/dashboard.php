@@ -229,108 +229,181 @@
 			</div>
 		</div>
 	<?php else: ?>
-		<!-- Quick Stats -->
-		<div class="row g-3 mb-1">
-			<div class="col-md-4">
-				<div class="card bg-dark text-light">
+		<!-- Enrollment System for Students -->
+		<div class="row">
+			<!-- Enrolled Courses Section -->
+			<div class="col-md-6 mb-4">
+				<div class="card shadow-sm border-0 bg-dark text-light">
+					<div class="card-header bg-primary text-white">
+						<h5 class="mb-0">My Enrolled Courses</h5>
+					</div>
 					<div class="card-body">
-						<div class="small text-muted">Enrolled Courses</div>
-						<div class="h4 mb-0"><strong><?= esc($stats['enrolledCourses'] ?? 0) ?></strong></div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="card bg-dark text-light">
-					<div class="card-body">
-						<div class="small text-muted">Completed Lessons</div>
-						<div class="h4 mb-0"><strong><?= esc($stats['completedLessons'] ?? 0) ?></strong></div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="card bg-dark text-light">
-					<div class="card-body">
-						<div class="small text-muted">Overall Progress</div>
-						<div class="h4 mb-0"><strong>—</strong></div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- Quick Actions -->
-		<div class="card bg-dark text-light mb-2">
-			<div class="card-body d-flex gap-2 flex-wrap">
-				<button class="btn btn-primary btn-sm disabled">Resume Learning</button>
-				<button class="btn btn-outline-light btn-sm disabled">Browse Courses</button>
-				<button class="btn btn-outline-light btn-sm disabled">View Grades</button>
-			</div>
-		</div>
-		<div class="row g-3">
-			<div class="col-lg-7">
-				<div class="card bg-dark text-light h-100">
-					<div class="card-header">My Enrollments (<?= esc($stats['enrolledCourses'] ?? 0) ?>)</div>
-					<div class="card-body p-0">
-						<div class="table-responsive">
-							<table class="table table-dark table-hover table-sm mb-0">
-								<thead>
-									<tr>
-										<th>Code</th>
-										<th>Title</th>
-										<th>Progress</th>
-									</tr>
-								</thead>
-								<tbody>
-									<?php if (!empty($enrolledCourses)): ?>
-										<?php foreach ($enrolledCourses as $e): ?>
-										<tr>
-											<td><?= esc($e['code']) ?></td>
-											<td><?= esc($e['title']) ?></td>
-											<td>
-												<div class="progress" style="height: 10px;">
-													<div class="progress-bar" role="progressbar" style="width: <?= esc($e['progress']) ?>;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-														<?= esc($e['progress']) ?>
-													</div>
-												</div>
-											</td>
-										</tr>
-										<?php endforeach; ?>
-									<?php else: ?>
-										<tr><td colspan="3" class="text-center">You are not enrolled in any course.</td></tr>
-									<?php endif; ?>
-								</tbody>
-							</table>
-						</div>
-					</div>
-					<div class="card-footer">
-						<a href="#" class="btn btn-primary btn-sm disabled">Browse Courses (coming soon)</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-5">
-				<div class="card bg-dark text-light h-100">
-					<div class="card-header">Upcoming</div>
-					<div class="card-body p-0">
-						<ul class="list-group list-group-flush">
-							<?php if (!empty($upcoming)): ?>
-								<?php foreach ($upcoming as $u): ?>
-								<li class="list-group-item bg-dark text-light d-flex justify-content-between align-items-center">
-									<span>
-										<strong><?= esc($u['type']) ?></strong> · <?= esc($u['course']) ?>
-									</span>
-									<span class="badge bg-primary">Due: <?= esc($u['due']) ?></span>
-								</li>
+						<?php if (!empty($enrolledCourses)): ?>
+							<div class="list-group">
+								<?php foreach ($enrolledCourses as $course): ?>
+									<div class="list-group-item bg-dark text-light border-secondary">
+										<h6 class="mb-1 text-white fw-bold"><?= esc($course['title']) ?></h6>
+										<p class="mb-1 text-light-50"><?= esc($course['description']) ?></p>
+										<small class="text-info">
+											Enrolled on: <?= date('M d, Y', strtotime($course['enrollment_date'])) ?>
+										</small>
+									</div>
 								<?php endforeach; ?>
-							<?php else: ?>
-								<li class="list-group-item bg-dark text-light text-center">No upcoming items.</li>
-							<?php endif; ?>
-						</ul>
+							</div>
+						<?php else: ?>
+							<p class="text-muted mb-0">You haven't enrolled in any courses yet.</p>
+						<?php endif; ?>
+					</div>
+				</div>
+			</div>
+
+			<!-- Available Courses Section -->
+			<div class="col-md-6 mb-4">
+				<div class="card shadow-sm border-0 bg-dark text-light">
+					<div class="card-header bg-primary text-white">
+						<h5 class="mb-0">Available Courses</h5>
+					</div>
+					<div class="card-body">
+						<?php if (!empty($availableCourses)): ?>
+							<div class="list-group">
+								<?php foreach ($availableCourses as $course): ?>
+									<div class="list-group-item bg-dark text-light border-secondary d-flex justify-content-between align-items-center">
+										<div>
+											<h6 class="mb-1 text-white fw-bold"><?= esc($course['title']) ?></h6>
+											<p class="mb-1 text-light-50"><?= esc($course['description']) ?></p>
+										</div>
+										<button class="btn btn-success btn-sm enroll-btn"
+												data-course-id="<?= $course['id'] ?>">
+											Enroll
+										</button>
+									</div>
+								<?php endforeach; ?>
+							</div>
+						<?php else: ?>
+							<p class="text-muted mb-0">No courses available at the moment.</p>
+						<?php endif; ?>
 					</div>
 				</div>
 			</div>
 		</div>
+
+		<!-- Success/Error Message Area -->
+		<div id="message-area"></div>
+
+		<!-- jQuery and AJAX Script -->
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script>
+		$(document).ready(function() {
+			$('.enroll-btn').on('click', function(e) {
+				e.preventDefault();
+
+				var button = $(this);
+				var courseId = button.data('course-id');
+				var originalText = button.text();
+
+				// Disable button and show loading state
+				button.prop('disabled', true).text('Enrolling...');
+
+				$.post('<?= base_url('course/enroll') ?>', {
+					course_id: courseId
+				})
+				.done(function(response) {
+					if (response.success) {
+						// Show success message
+						$('#message-area').html(
+							'<div class="alert alert-success alert-dismissible fade show" role="alert">' +
+							response.message +
+							'<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
+							'</div>'
+						);
+
+						// Get the course information from the button's parent element
+						var courseItem = button.closest('.list-group-item');
+						var courseTitle = courseItem.find('h6').text();
+						var courseDescription = courseItem.find('p').text();
+						var enrollmentDate = new Date().toLocaleDateString('en-US', {
+							year: 'numeric',
+							month: 'short',
+							day: 'numeric'
+						});
+
+						// Hide the button
+						button.fadeOut();
+
+						// After animation completes, move course to enrolled section
+						setTimeout(function() {
+							// Remove from available courses
+							courseItem.fadeOut(400, function() {
+								$(this).remove();
+
+								// Add to enrolled courses
+								var enrolledCourseHtml = `
+									<div class="list-group-item bg-dark text-light border-secondary">
+										<h6 class="mb-1 text-white fw-bold">${courseTitle}</h6>
+										<p class="mb-1 text-light-50">${courseDescription}</p>
+										<small class="text-info">Enrolled on: ${enrollmentDate}</small>
+									</div>
+								`;
+
+								// Check if enrolled courses list is empty
+								var enrolledList = $('.card:has(.card-header:contains("My Enrolled Courses")) .list-group');
+								var emptyMessage = enrolledList.find('p:contains("You haven\'t enrolled in any courses yet.")');
+
+								if (emptyMessage.length > 0) {
+									// Replace empty message with course
+									emptyMessage.parent().html('<div class="list-group">' + enrolledCourseHtml + '</div>');
+								} else {
+									// Add to existing list
+									enrolledList.append(enrolledCourseHtml);
+								}
+
+								// Update course counts in sidebar
+								updateCourseCounts();
+
+								// Check if no more available courses
+								var availableCoursesCard = $('.card:has(.card-header:contains("Available Courses")) .list-group');
+								if (availableCoursesCard.children('.list-group-item').length === 0) {
+									availableCoursesCard.html('<p class="text-muted mb-0">No courses available at the moment.</p>');
+								}
+							});
+						}, 500);
+
+					} else {
+						// Show error message
+						$('#message-area').html(
+							'<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+							response.message +
+							'<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
+							'</div>'
+						);
+
+						// Re-enable button
+						button.prop('disabled', false).text(originalText);
+					}
+				})
+				.fail(function() {
+					// Show error message
+					$('#message-area').html(
+						'<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+						'An error occurred. Please try again.' +
+						'<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
+						'</div>'
+					);
+
+					// Re-enable button
+					button.prop('disabled', false).text(originalText);
+				});
+			});
+		});
+
+		// Function to update course counts in sidebar
+		function updateCourseCounts() {
+			var enrolledCount = $('.card:has(.card-header:contains("My Enrolled Courses")) .list-group .list-group-item').length;
+			$('.list-group-item:contains("My Courses") .badge').text(enrolledCount);
+		}
+		</script>
 	<?php endif; ?>
 		</div>
 	</div>
 
 <?= $this->endSection() ?>
-
-
